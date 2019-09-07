@@ -1,8 +1,8 @@
 # Planeks news task
 
-## Todos:
+### Todos:
 
-### Main
+#### Main
 
 1. Email registration/authorization
     - [x] Optional fields: First name, Last name, Age
@@ -24,7 +24,7 @@
 5. New comments notifications
    - [x] Notify subscribed users on new comments via email (Subscribe/Unsubscribe button)
 
-### Additional
+#### Additional
 
 - [ ] Tests
 - [ ] Documentation
