@@ -12,7 +12,7 @@
 2. Posts publication
     - [x] WYSIWYG editor
     - [x] Ability to attach a file
-    - [x] Defereed post publication
+    - [x] Deferred post publication
 
 3. Comments
     - [x] Replies
