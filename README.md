@@ -18,6 +18,7 @@
     - [x] Replies
 
 4. Admin panel
+    - [x] Admins, editors and ordinary users groups by default
     - [ ] Ability to disable moderation for staff users
     - [ ] Ability to disable moderation for any single user
     

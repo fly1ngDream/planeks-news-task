@@ -1,10 +1,15 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth.models import Group, Permission
 from django.urls import path, include
 
 
 from posts.views import PostCreateView
+
+admins_group, created = Group.objects.get_or_create(name='admins')
+editors_group, created = Group.objects.get_or_create(name='editors')
+ordinary_users_group, created = Group.objects.get_or_create(name='ordinary_users')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
