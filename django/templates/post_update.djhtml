@@ -1,0 +1,46 @@
+{% extends 'base.djhtml' %}
+
+
+{% load crispy_forms_tags %}
+
+
+{% block title %}{{object.title}}{% endblock title %}
+
+
+{% block head_extra %}
+
+    {{ form.media }}
+
+{% endblock head_extra %}
+
+{% block post_detail_link %}
+    <li class="breadcrumb-item active">
+        <a href={{ post.get_absolute_url }}>{{ object.title }}</a>
+    </li>
+    <li class="breadcrumb-item" aria-current="page">
+        <span class="text-warning">Update</span>
+    </li>
+{% endblock post_detail_link %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Preview</h1>
+            <hr/>
+            <div class="content-preview">
+                <h3 id="preview-title"></h3>
+                <p id="preview-content"></p>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <h1>Update Post</h1>
+            <hr/>
+            <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                {{ form|crispy }}
+                <hr />
+                <button type="submit" class="btn btn-primary">Update Post</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

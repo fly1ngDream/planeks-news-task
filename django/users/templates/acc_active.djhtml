@@ -1,0 +1,10 @@
+{% extends 'base.djhtml' %}
+
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            Please confirm your email address to complete the registration
+        </div>
+    </div>
+{% endblock content %}

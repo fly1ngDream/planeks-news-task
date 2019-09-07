@@ -1,0 +1,10 @@
+{% extends 'base.djhtml' %}
+
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            Thank you for your email confirmation.
+        </div>
+    </div>
+{% endblock content %}

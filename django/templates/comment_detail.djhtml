@@ -1,0 +1,64 @@
+{% extends 'base.djhtml' %}
+
+
+{% load crispy_forms_tags %}
+
+
+{% block title %}Comment thread | {{ block.super }}{% endblock title %}
+
+{% block post_detail_link %}
+    <li class="breadcrumb-item active">
+        <a href="{{ comment.post.get_absolute_url }}">{{ comment.post.title }}</a>
+    </li>
+    <li class="breadcrumb-item" aria-current="page">
+        Comment thread
+    </li>
+{% endblock post_detail_link %}
+
+
+{% block content %}
+    <div class="col-sm-6 mx-auto">
+        <p>
+            {{ comment.content }}
+        </p>
+        <cite>via {{ comment.author }}
+            | {{ comment.created|timesince }} ago
+            | {% if comment.children.count > 0 %}
+            {{ comment.children.count }} Comment{% if comment.children.count >= 1 %}s{% endif %}
+            {% endif %}
+            {% if user == comment.user %} <a href="{% url 'comments:comment_delete' comment.pk %}">Delete</a>{% endif %}
+        </cite>
+
+        <hr/>
+
+        <div>
+            {% for child_comment in comment.children %}
+                <blockquote class="blockquote ml-5">
+                    <p class="mb-0">
+                        {{ child_comment.content }}
+                    </p>
+                    <cite>
+                        via {{ child_comment.author }} | {{ child_comment.created|timesince }} ago
+                        {% if user == child_comment.author %} | <a href="{% url 'comments:comment_delete' child_comment.pk %}">Delete</a>{% endif %}
+                    </cite>
+                </blockquote>
+            {% endfor %}
+
+            {% if user.is_authenticated %}
+                <form method="POST" action=".">{% csrf_token %}
+                    {{ comment_form|crispy }}
+                    <input name="parent_id" type="hidden" value="{{ comment.id }}"/>
+                    <input class="btn btn-primary" type="submit" value="Post comment"/>
+                </form>
+            {% else %}
+                {% if comment.children %}
+                    <hr/>
+                {% endif %}
+                <p>
+                    You must login to comment
+                </p>
+            {% endif %}
+        </div>
+        <hr/>
+    </div>
+{% endblock content %}

@@ -1,0 +1,123 @@
+{% extends 'base.djhtml' %}
+
+{% load static %}
+
+
+{% block title %}Posts | {{ block.super }}{% endblock title %}
+
+
+{% block content%}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if object_list %}
+        <div class="row">
+            {% for post in object_list %}
+                <div class="col-sm-6">
+                    <div class="post-detail-item card">
+                        <div class="card-body">
+                            <div class="img-caption">
+                                {% if post.image %}
+                                    <img src="{{ post.image.url }}" class="img-fluid" />
+                                    <hr />
+                                {% endif %}
+                                <h3>
+                                    <a
+                                        class="text-decoration-none"
+                                        href="{{ post.get_absolute_url }}">
+                                        {{ post.title }}
+                                    </a>
+                                    <small>{{ post.created|timesince }} ago</small>
+                                </h3>
+                                <hr />
+                                <p>
+                                    Author: {{ post.author }}
+                                </p>
+                                <hr />
+                                {{ post.get_markdown|linebreaks|truncatewords_html:5 }}
+                                <hr />
+                                <a
+                                    href="{{ post.get_absolute_url }}"
+                                    class="btn btn-primary"
+                                    role="button">
+                                    View
+                                </a>
+
+                                {% if user.is_authenticated and user == post.author or user.is_staff or user.is_superuser %}
+                                    <div class="btn-group">
+                                        <a
+                                            href="{% url 'posts:post_update' post.slug %}"
+                                            class="btn btn-outline-warning">
+                                            Edit
+                                        </a>
+                                        <a
+                                            href="{% url 'posts:post_delete' post.slug %}"
+                                            class="btn btn-outline-danger">
+                                            Delete
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if not forloop.last %}
+                        <br />
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>
+            No posts were found.
+        </p>
+    {% endif %}
+
+
+    {% if is_paginated %}
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="/?page={{ page_obj.previous_page_number }}&Search={% if request.GET.Search %}{{ request.GET.Search }}{% endif %}">
+                            Previous
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="/?page={{ page_obj.previous_page_number }}&Search={% if request.GET.Search %}{{ request.GET.Search }}{% endif %}">
+                            {{ page_obj.previous_page_number }}
+                        </a>
+                    </li>
+                {% endif %}
+                    <li class="page-item active">
+                        <a class="page-link"
+                           href="#">
+                            {{ page_obj.number }}
+                        </a>
+                    </li>
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="/?page={{ page_obj.next_page_number }}&Search={% if request.GET.Search %}{{ request.GET.Search }}{% endif %}">
+                            {{ page_obj.next_page_number }}
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="/?page={{ page_obj.next_page_number }}&Search={% if request.GET.Search %}{{ request.GET.Search }}{% endif %}">
+                            Next
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% endblock content %}

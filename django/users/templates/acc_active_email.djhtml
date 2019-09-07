@@ -1,0 +1,2 @@
+Hi, {{ user.username }}.
+Please click the link to confirm your registration, http://{{ domain }}{% url 'users:activate' pk=pk token=token %}

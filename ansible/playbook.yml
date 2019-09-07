@@ -1,0 +1,39 @@
+---
+- hosts: all
+  vars:
+    project_name: {{cookiecutter.project_name}}
+    repo_name: # <Your github repo name>
+  tasks:
+  - name: Dependencies
+    tags: apt
+    apt: cache_valid_time=3600 name={{ packages }}
+    become: yes
+    vars:
+      packages:
+        - python3
+        - python-pip
+        - python3-pip
+        - python3-setuptools
+  - name: Install pipenv
+    tags: python
+    become: yes
+    shell: pip3 install pipenv
+    register: pipenv
+    changed_when: "'installed pipenv' in pipenv.stdout"
+  - name: Install pm2
+    tags: python
+    become: yes
+    shell: npm install -g pm2
+  - name: Clone repo
+    tags: deploy
+    git:
+      repo: https://github.com/{{ repo_name }}
+      update: yes
+      force: yes
+      dest: ~/{{ project_name }}
+  - name: Install pipenv deps
+    shell: pipenv install
+    tags: pipenvdeps
+    args:
+      chdir: ~/{{ project_name }}
+  # Continue writing needed tasks

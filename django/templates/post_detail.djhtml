@@ -1,0 +1,182 @@
+{% extends 'base.djhtml' %}
+
+
+{% load urlify %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block title %}{{ post.title }} | {{ block.super }}{% endblock title %}
+
+
+{% block post_detail_link %}
+    <li class="breadcrumb-item" aria-current="page">
+        {{ post.title }}
+    </li>
+{% endblock post_detail_link %}
+
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card">
+        <div class="card-body">
+            {% if post.image %}
+                <img src="{{ post.image.url }}" class="img-fluid" />
+                <hr/>
+            {% endif %}
+            <div class="row mx-1">
+                <h1>{{ post.title }} <small>{{ object.timestamp }}</small></h1>
+                {% if not user in post.subscribers.all %}
+                    <form
+                        method="POST"
+                        action="{% url 'posts:subscribe' post.slug user.pk %}"
+                        class="ml-auto">{% csrf_token %}
+                        <button
+                            class="btn btn-info"
+                            type="submit">
+                            Subscribe
+                        </button>
+                    </form>
+                {% else %}
+                    <form
+                        method="POST"
+                        action="{% url 'posts:unsubscribe' post.slug user.pk %}"
+                        class="ml-auto">{% csrf_token %}
+                        <button
+                            class="btn btn-outline-info"
+                            type="submit">
+                            Unsubscribe
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+            <hr/>
+
+            <p>
+                Read time: {% if post.read_time <= 1 %} < 1 min. {% else %}{{ object.read_time }} min.{% endif %}
+            </p>
+
+            <p>
+                Author: {{ post.author }}
+            </p>
+
+            <hr/>
+
+            {% if post.attachment %}
+                Attachment:
+                <br /><br />
+
+                <a
+                    href="{% url 'posts:attachment_download' post.slug %}"
+                    class="btn btn-primary">
+                    <i class="far fa-file"></i> {{ post.get_attachment_filename }}
+                </a>
+
+                <hr />
+            {% endif %}
+
+            <div class="post-detail-item">{{ post.get_markdown|linebreaks }}</div>
+
+            <hr/>
+
+            {% if user.is_authenticated and user == post.author or user.is_staff or user.is_superuser %}
+                <div class="btn-group w-100">
+                    <a
+                        href="{% url 'posts:post_update' post.slug %}"
+                        class="btn btn-outline-warning">
+                        Edit
+                    </a>
+                    <a
+                        href="{% url 'posts:post_delete' post.slug %}"
+                        class="btn btn-outline-danger">
+                        Delete
+                    </a>
+                </div>
+                <br />
+            {% endif %}
+            <br />
+
+            <div>
+                <p class="lead">
+                    Comment
+                </p>
+
+                {% if user.is_authenticated %}
+                    <form method="POST">{% csrf_token %}
+                        {{ comment_form|crispy }}
+                        <input class="btn btn-primary" type="submit" value="Post comment"/>
+                    </form>
+                {% else %}
+                    <hr/>
+                    <p>
+                        You must login to comment
+                    </p>
+                {% endif %}
+
+                {% if post.comments.first != None %}
+                    <hr />
+                    <br />
+
+                    <p class="lead">
+                        Comments:
+                    </p>
+                {% endif %}
+
+                {% for comment in post.comments.all %}
+                    <blockquote>
+                        <p>
+                            {{ comment.content }}
+                        </p>
+                        <cite>via {{ comment.author }}
+                            | {{ comment.created|timesince }} ago
+                            | {% if comment.children.count > 0 %}
+                                {{ comment.children.count }} Comment{% if comment.children.count >= 1 %}s{% endif %}
+                            | {% endif %} <a class="comment-reply-btn" href="#">Reply</a>
+                            | <a href="{% url 'comments:thread' comment.pk %}">Thread</a>
+                            {% if user == comment.author %} | <a href="{% url 'comments:comment_delete' comment.pk %}">Delete</a>{% endif %}
+                        </cite>
+
+                        <div class="comment-reply">
+                            <hr />
+                            {% for child_comment in comment.children %}
+                                <blockquote class="blockquote ml-5">
+                                    <p class="mb-0">
+                                        {{ child_comment.content }}
+                                    </p>
+                                    <cite>
+                                        via {{ child_comment.author }} | {{ child_comment.created|timesince }} ago
+                                        {% if user == child_comment.author %} | <a href="{% url 'comments:comment_delete' child_comment.pk %}">Delete</a>{% endif %}
+                                    </cite>
+                                </blockquote>
+                            {% endfor %}
+
+                            {% if user.is_authenticated %}
+                                <form method="POST" action=".">{% csrf_token %}
+                                    {{ comment_form|crispy }}
+                                    <input name="parent_id" type="hidden" value="{{ comment.id }}"/>
+                                    <input class="btn btn-primary" type="submit" value="Post comment"/>
+                                </form>
+                            {% else %}
+                                <hr/>
+                                <p>
+                                    You must login to comment
+                                </p>
+                            {% endif %}
+                        </div>
+                    </blockquote>
+
+                    {% if not forloop.last %}
+                        <hr />
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
