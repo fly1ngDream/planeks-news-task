@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars:
-    project_name: {{cookiecutter.project_name}}
+    project_name: planeks-news
     repo_name: # <Your github repo name>
   tasks:
   - name: Dependencies
