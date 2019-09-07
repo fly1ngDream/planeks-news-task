@@ -28,6 +28,6 @@
 #### Additional
 
 - [ ] Tests
-- [ ] Documentation
+- [x] Documentation
 - [ ] Docker Compose
 - [ ] DO deployment
