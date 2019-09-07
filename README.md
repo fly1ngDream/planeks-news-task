@@ -19,8 +19,8 @@
 
 4. Admin panel
     - [x] Admins, editors and ordinary users groups by default
-    - [ ] Ability to disable moderation for staff users
-    - [ ] Ability to disable moderation for any single user
+    - [x] Ability to disable moderation for editor users
+    - [x] Ability to disable moderation for any single user
     
 5. New comments notifications
    - [x] Notify subscribed users on new comments via email (Subscribe/Unsubscribe button)

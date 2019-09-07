@@ -3,6 +3,7 @@ from django.views.generic import CreateView
 from django.contrib.auth import login, authenticate
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.models import Group
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.core.mail import EmailMessage
@@ -27,6 +28,10 @@ class SignUpView(CreateView):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
+
+            ordinary_users_group = Group.objects.get(name='ordinary_users')
+            ordinary_users_group.user_set.add(user)
+
             form.instance.is_active = False
             current_site = get_current_site(self.request)
             mail_subject = 'Activate your account.'
