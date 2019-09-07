@@ -25,6 +25,9 @@ class CustomUserManager(BaseUserManager):
         if user.is_superuser == True:
             admins_group = Group.objects.get(name='admins')
             admins_group.user_set.add(user)
+        elif user.is_superuser == False and user.is_staff == False:
+            ordinary_users_group = Group.objects.get(name='ordinary_users')
+            ordinary_users_group.user_set.add(user)
 
         return user
 

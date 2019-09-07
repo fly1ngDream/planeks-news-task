@@ -20,7 +20,8 @@ class SignUpView(CreateView):
     '''
     Registration view
     '''
-    form_class = CustomUserCreateForm success_url = reverse_lazy('login')
+    form_class = CustomUserCreateForm
+    success_url = reverse_lazy('login')
     template_name = 'signup.djhtml'
     success_message = 'Account was successfully created!'
 
