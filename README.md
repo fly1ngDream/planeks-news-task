@@ -11,7 +11,7 @@
 
 2. Posts publication
     - [x] WYSIWYG editor
-    - [x] Connect to a SMTP service
+    - [x] Ability to attach a file
     - [x] Defereed post publication
 
 3. Comments
