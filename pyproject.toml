@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "planeks-news"
+version = "0.1.0"
+description = ""
+authors = ["Yevhen Shymotyuk <fly1ngDream@protonamil.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+django = "*"
+python-dotenv = "*"
+psycopg2 = "*"
+sphinx = "*"
+coverage = "*"
+django-crispy-forms = "*"
+django-markdown-deux = "*"
+django-pagedown = "*"
+django-extensions = "*"
+python-slugify = "*"
+pillow = "*"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
