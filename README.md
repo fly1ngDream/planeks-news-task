@@ -23,7 +23,7 @@
     - [x] Ability to disable moderation for any single user
     
 5. New comments notifications
-   - [x] Notify subscribed users on new comments via email (Subscribe/Unsubscribe button)
+    - [x] Notify subscribed users on new comments via email (Subscribe/Unsubscribe button)
 
 #### Additional
 

@@ -16,6 +16,9 @@ import os, shutil
 
 
 def upload_location(instance, filename):
+    '''
+    Returns a relative location of uploaded media files
+    '''
     return f'{instance.slug}/{filename}'
 
 
@@ -52,23 +55,38 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
+        '''
+        Returns an absolute url to a post
+        '''
         return reverse('posts:post_detail', kwargs = {'slug': str(self.slug)})
 
     class Meta:
         ordering = ['-created', '-updated']
 
     def get_markdown(self):
+        '''
+        Returns markdownified post content
+        '''
         content = self.content
         markdown_text = markdown(content)
         return mark_safe(markdown_text)
 
     def get_attachment_ext(self):
+        '''
+        Returns an extension of an attachment
+        '''
         return os.path.splitext(self.attachment.path)[1]
 
     def get_attachment_filename(self):
+        '''
+        Returns a filename of an attachment
+        '''
         return self.attachment.name.split('/')[1]
 
     def remove_files(self):
+        '''
+        Removes all media files related to the post
+        '''
         shutil.rmtree(os.path.join(settings.MEDIA_ROOT, self.slug))
 
 

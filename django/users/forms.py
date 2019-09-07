@@ -5,6 +5,9 @@ from .models import CustomUser
 
 
 class CustomUserCreateForm(UserCreationForm):
+    '''
+    Custom user create form
+    '''
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
@@ -12,6 +15,9 @@ class CustomUserCreateForm(UserCreationForm):
 
 
 class CustomUserChangeForm(UserChangeForm):
+    '''
+    Custom user update form
+    '''
 
     class Meta(UserChangeForm.Meta):
         model = CustomUser

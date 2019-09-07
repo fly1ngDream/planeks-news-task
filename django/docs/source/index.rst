@@ -8,13 +8,8 @@ Welcome to planeks-news's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Applications:
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   apps/users
+   apps/posts
+   apps/comments

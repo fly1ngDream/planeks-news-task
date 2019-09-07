@@ -17,8 +17,10 @@ from users.models import CustomUser
 
 
 class SignUpView(CreateView):
-    form_class = CustomUserCreateForm
-    success_url = reverse_lazy('login')
+    '''
+    Registration view
+    '''
+    form_class = CustomUserCreateForm success_url = reverse_lazy('login')
     template_name = 'signup.djhtml'
     success_message = 'Account was successfully created!'
 
@@ -51,6 +53,9 @@ class SignUpView(CreateView):
 
 
 def activate(request, pk, token):
+    '''
+    View that allows to activate new account via email
+    '''
     try:
         user = CustomUser.objects.get(pk=pk)
     except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):

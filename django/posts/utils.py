@@ -6,6 +6,9 @@ from django.utils.html import strip_tags
 
 
 def count_words(html_string):
+    '''
+    Count words in the html string
+    '''
     # html_string = """
     # <h1>This is a title</h1>
     # """
@@ -15,9 +18,9 @@ def count_words(html_string):
     return count
 
 def get_read_time(html_string):
+    '''
+    Calculate post content read time
+    '''
     count = count_words(html_string)
     read_time_min = math.ceil(count/200.0)
-    # read_time_sec = read_time_min * 60
-    # read_time = str(datetime.timedelta(seconds=read_time_sec))
-    # read_time = str(datetime.timedelta(minutes=read_time_min))
     return int(read_time_min)

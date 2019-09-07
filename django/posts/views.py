@@ -28,6 +28,9 @@ from comments.forms import CommentForm
 
 
 class PostListView(generic.ListView):
+    '''
+    List all posts
+    '''
     model = Post
     template_name = 'post_list.djhtml'
     paginate_by = 6
@@ -43,6 +46,9 @@ class PostListView(generic.ListView):
 
 
 class PostDetailView(SuccessMessageMixin, FormMixin, generic.DetailView):
+    '''
+    Show post details
+    '''
     model = Post
     form_class = CommentForm
     template_name = 'post_detail.djhtml'
@@ -105,6 +111,9 @@ class PostDetailView(SuccessMessageMixin, FormMixin, generic.DetailView):
 
 
 class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.CreateView):
+    '''
+    Creates new post
+    '''
     form_class = PostForm
     template_name = 'post_create.djhtml'
     login_url = 'users:login'
@@ -119,9 +128,11 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.Creat
 
 
 class PostUpdateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.UpdateView):
+    '''
+    Updates a post
+    '''
     form_class = PostForm
     model = Post
-    # fields = ('title', 'content', 'image')
     template_name = 'post_update.djhtml'
     login_url = 'login'
     success_message = 'Post was successfully updated.'
@@ -141,6 +152,9 @@ class PostUpdateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.Updat
 
 
 class PostDeleteView(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):
+    '''
+    Removes a post
+    '''
     model = Post
     template_name = 'post_delete.djhtml'
     success_url = reverse_lazy('post_list')
@@ -164,6 +178,9 @@ class PostDeleteView(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView
 
 
 def attachment_download_view(self, slug):
+    '''
+    View that allows to download a post attachment
+    '''
     file_path = Post.objects.get(slug=slug).attachment.path
     file_name = (
         Post.objects.get(slug=slug).slug + Post.objects.get(slug=slug).get_attachment_ext()
@@ -175,6 +192,9 @@ def attachment_download_view(self, slug):
     return response
 
 def subscribe_view(self, slug, pk):
+    '''
+    View that allows to subscribe for a new post comments
+    '''
     user = CustomUser.objects.get(pk=pk)
     post = Post.objects.get(slug=slug)
 
@@ -184,6 +204,9 @@ def subscribe_view(self, slug, pk):
     return HttpResponseRedirect(post.get_absolute_url())
 
 def unsubscribe_view(self, slug, pk):
+    '''
+    View that allows to unsubscribe from a new post comments
+    '''
     user = CustomUser.objects.get(pk=pk)
     post = Post.objects.get(slug=slug)
 

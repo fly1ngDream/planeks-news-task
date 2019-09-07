@@ -8,6 +8,9 @@ from .models import Post
 
 
 class PostForm(forms.ModelForm):
+    '''
+    Post model form
+    '''
     content = forms.CharField(widget=PagedownWidget(show_preview=False))
     created = forms.DateTimeField(
         initial=datetime.now().strftime("%m/%d/%Y %H:%M:%S"),

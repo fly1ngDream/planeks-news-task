@@ -9,11 +9,21 @@ from posts.models import Post
 
 
 class CommentManager(models.Manager):
+    '''
+    Comment model manager
+    '''
+
     def all(self):
+        '''
+        Rewrites all function to show only comments that dont have a parent
+        '''
         qs = super().filter(parent=None)
         return qs
 
     def filter_by_instance(self, instance):
+        '''
+        Filter comments by a parent
+        '''
         content_type = ContentType.objects.get_for_model(instance.__class__)
         obj_id = instance.id
         qs = super().filter(parent_pk=instance.pk).filter(parent=None)
@@ -44,30 +54,23 @@ class Comment(models.Model):
         return f'{content}...' if len(self.content) > 80 else self.content
 
     def children(self):
+        '''
+        Returns the children of the comment
+        '''
         return Comment.objects.filter(parent=self)
 
     def get_absolute_url(self):
+        '''
+        Returns an absolute url to a comment
+        '''
         return reverse('comments:comment_detail', kwargs = {'pk': str(self.pk)})
 
     @property
     def is_parent(self):
+        '''
+        Check if comment is parent
+        '''
         if self.parent is not None:
             return False
         else:
             return True
-
-
-# def post_save_comment_receiver(sender, instance, *args, **kwargs):
-#     subscribed_addresses = instance.post.subscribers.values_list('email', flat=True)
-#     mail_subject = 'New comment'
-#     current_site = get_current_site(None)
-#     message = render_to_string('new_comment.djhtml', {
-#         'post': instance.post,
-#         'domain': current_site,
-#     })
-#     email = EmailMessage(
-#         mail_subject, message, to=subscribed_addresses
-#     )
-#     email.send()
-
-# post_save.connect(post_save_comment_receiver, sender=Comment)
