@@ -33,7 +33,7 @@
             {% endif %}
             <div class="row mx-1">
                 <h1>{{ post.title }} <small>{{ object.timestamp }}</small></h1>
-                {% if user.is_authenticted %}
+                {% if user.is_authenticated %}
                     {% if not user in post.subscribers.all %}
                         <form
                             method="POST"
