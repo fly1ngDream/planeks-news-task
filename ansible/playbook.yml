@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars:
-    project_name: planeks-news
+    project_name: planeks-news-task
     repo_name: fly1ngDream/planeks-news-task
   tasks:
   - name: Dependencies
