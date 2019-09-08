@@ -24,23 +24,18 @@
       update: yes
       force: yes
       dest: ~/{{ project_name }}
-  - name: Pip freeze
-    shell: pip3 freeze > requirements.txt
-    tags: pipdeps
-    args:
-      chdir: ~/{{ project_name }}/django
+  # - name: Pip freeze
+  #   shell: pip freeze > requirements.txt
+  #   tags: pipdeps
+  #   args:
+  #     chdir: ~/{{ project_name }}/django
   - name: Set environment to production
     tags: deploy
     lineinfile:
-      path: "{{ project_name }}/{{ project_name }}/settings/__init__.py"
+      path: "{{ project_name }}/django/config/settings/__init__.py"
       regexp: 'from \.\w+ import \*'
       line: 'from .prod import *'
-  - name: Create the image
-    shell: pip3 freeze > requirements.txt
-    tags: deploy
-    args:
-      chdir: ~/{{ project_name }}/django
-  - name: Run the image
+  - name: Create and run the image
     become: yes
     shell: docker-compose -f docker-compose-common.yml -f docker-compose-prod.yml up --build
     tags: deploy
