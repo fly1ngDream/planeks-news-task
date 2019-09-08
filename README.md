@@ -29,5 +29,9 @@
 
 - [x] Tests
 - [x] Documentation
-- [ ] Docker Compose
-- [ ] DO deployment
+- [x] Docker Compose
+- [x] DO deployment
+
+---
+
+Use `make docs` in `django` directory to open Sphinx docs in your browser
