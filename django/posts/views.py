@@ -195,11 +195,12 @@ def subscribe_view(self, slug, pk):
     '''
     View that allows to subscribe for a new post comments
     '''
-    user = CustomUser.objects.get(pk=pk)
-    post = Post.objects.get(slug=slug)
+    if pk != None:
+        user = CustomUser.objects.get(pk=pk)
+        post = Post.objects.get(slug=slug)
 
-    post.subscribers.add(user)
-    post.save()
+        post.subscribers.add(user)
+        post.save()
 
     return HttpResponseRedirect(post.get_absolute_url())
 
@@ -207,10 +208,11 @@ def unsubscribe_view(self, slug, pk):
     '''
     View that allows to unsubscribe from a new post comments
     '''
-    user = CustomUser.objects.get(pk=pk)
-    post = Post.objects.get(slug=slug)
+    if pk != None:
+        user = CustomUser.objects.get(pk=pk)
+        post = Post.objects.get(slug=slug)
 
-    post.subscribers.remove(user)
-    post.save()
+        post.subscribers.remove(user)
+        post.save()
 
     return HttpResponseRedirect(post.get_absolute_url())

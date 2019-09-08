@@ -33,29 +33,31 @@
             {% endif %}
             <div class="row mx-1">
                 <h1>{{ post.title }} <small>{{ object.timestamp }}</small></h1>
-                {% if not user in post.subscribers.all %}
-                    <form
-                        method="POST"
-                        action="{% url 'posts:subscribe' post.slug user.pk %}"
-                        class="ml-auto">{% csrf_token %}
-                        <button
-                            class="btn btn-info"
-                            type="submit">
-                            Subscribe
-                        </button>
-                    </form>
-                {% else %}
-                    <form
-                        method="POST"
-                        action="{% url 'posts:unsubscribe' post.slug user.pk %}"
-                        class="ml-auto">{% csrf_token %}
-                        <button
-                            class="btn btn-outline-info"
-                            type="submit">
-                            Unsubscribe
-                        </button>
-                    </form>
-                {% endif %}
+                {% if user.is_authenticted %}
+                    {% if not user in post.subscribers.all %}
+                        <form
+                            method="POST"
+                            action="{% url 'posts:subscribe' post.slug user.pk %}"
+                            class="ml-auto">{% csrf_token %}
+                            <button
+                                class="btn btn-info"
+                                type="submit">
+                                Subscribe
+                            </button>
+                        </form>
+                    {% else %}
+                        <form
+                            method="POST"
+                            action="{% url 'posts:unsubscribe' post.slug user.pk %}"
+                            class="ml-auto">{% csrf_token %}
+                            <button
+                                class="btn btn-outline-info"
+                                type="submit">
+                                Unsubscribe
+                            </button>
+                        </form>
+                    {% endif %}
+                {% endi %}
             </div>
             <hr/>
 
