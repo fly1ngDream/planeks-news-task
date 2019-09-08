@@ -3,12 +3,12 @@ version: "3"
 services:
   djangoapp:
     ports:
-      - "8000:8000" # we'll use port 5000 for django
+      - "8000:8000"
     environment:
       - DJANGO_ENV=development
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=planeks-news
+      - POSTGRES_DB=planeks_news
       - POSTGRES_PORT=5432
 
   db:
