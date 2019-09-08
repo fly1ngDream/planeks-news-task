@@ -84,7 +84,7 @@ class PostDetailView(SuccessMessageMixin, FormMixin, generic.DetailView):
                 if parent_qs.exists() and parent_qs.count() == 1:
                     parent_obj = parent_qs.first()
 
-            new_comment, created = Comment.objects.get_or_create(
+            new_comment = Comment.objects.create(
                                         author = self.request.user,
                                         content = content_data,
                                         parent = parent_obj,
