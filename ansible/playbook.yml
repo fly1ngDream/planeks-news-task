@@ -35,9 +35,9 @@
       path: "{{ project_name }}/django/config/settings/__init__.py"
       regexp: 'from \.\w+ import \*'
       line: 'from .prod import *'
-  - name: Create and run the image
-    become: yes
-    shell: docker-compose -f docker-compose-common.yml -f docker-compose-prod.yml up --build
-    tags: deploy
-    args:
-      chdir: ~/{{ project_name }}/django
+  # - name: Create and run the image
+  #   become: yes
+  #   shell: docker-compose -f docker-compose-common.yml -f docker-compose-prod.yml up --build
+  #   tags: deploy
+  #   args:
+  #     chdir: ~/{{ project_name }}/django
