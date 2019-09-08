@@ -8,7 +8,7 @@ authors = ["Yevhen Shymotyuk <fly1ngDream@protonamil.com>"]
 python = "^3.7"
 django = "*"
 python-dotenv = "*"
-psycopg2 = "*"
+psycopg2-binary = "*"
 sphinx = "*"
 coverage = "*"
 django-crispy-forms = "*"
@@ -17,6 +17,7 @@ django-pagedown = "*"
 django-extensions = "*"
 python-slugify = "*"
 pillow = "*"
+gunicorn = "^19.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"

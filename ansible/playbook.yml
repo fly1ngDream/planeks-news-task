@@ -2,7 +2,7 @@
 - hosts: all
   vars:
     project_name: planeks-news
-    repo_name: # <Your github repo name>
+    repo_name: fly1ngDream/planeks-news-task
   tasks:
   - name: Dependencies
     tags: apt
@@ -14,16 +14,9 @@
         - python-pip
         - python3-pip
         - python3-setuptools
-  - name: Install pipenv
-    tags: python
-    become: yes
-    shell: pip3 install pipenv
-    register: pipenv
-    changed_when: "'installed pipenv' in pipenv.stdout"
-  - name: Install pm2
-    tags: python
-    become: yes
-    shell: npm install -g pm2
+        - docker
+        - docker-compose
+        - postgresql
   - name: Clone repo
     tags: deploy
     git:
@@ -31,9 +24,25 @@
       update: yes
       force: yes
       dest: ~/{{ project_name }}
-  - name: Install pipenv deps
-    shell: pipenv install
-    tags: pipenvdeps
+  - name: Pip freeze
+    shell: pip3 freeze > requirements.txt
+    tags: pipdeps
     args:
-      chdir: ~/{{ project_name }}
-  # Continue writing needed tasks
+      chdir: ~/{{ project_name }}/django
+  - name: Set environment to production
+    tags: deploy
+    lineinfile:
+      path: "{{ project_name }}/{{ project_name }}/settings/__init__.py"
+      regexp: 'from \.\w+ import \*'
+      line: 'from .prod import *'
+  - name: Create the image
+    shell: pip3 freeze > requirements.txt
+    tags: deploy
+    args:
+      chdir: ~/{{ project_name }}/django
+  - name: Run the image
+    become: yes
+    shell: docker-compose -f docker-compose-common.yml -f docker-compose-prod.yml up --build
+    tags: deploy
+    args:
+      chdir: ~/{{ project_name }}/django

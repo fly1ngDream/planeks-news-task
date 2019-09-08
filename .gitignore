@@ -22,3 +22,6 @@ migrations/
 
 # docs build
 build/
+
+# static root
+static_root/
