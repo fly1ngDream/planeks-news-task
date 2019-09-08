@@ -4,7 +4,7 @@ from .base import *
 ALLOWED_HOSTS = ['*']
 
 
-DEBUG = False
+DEBUG = True
 
 
 SECRET_KEY = os.getenv('SECRET_KEY')
